@@ -1,0 +1,4 @@
+# Environment file
+.env
+# Output file of daily movie comments
+movie-post.txt

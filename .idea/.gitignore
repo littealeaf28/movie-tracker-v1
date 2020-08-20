@@ -6,7 +6,3 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
-# Environment file
-.env
-# Output file of daily movie comments
-movie-post.txt
