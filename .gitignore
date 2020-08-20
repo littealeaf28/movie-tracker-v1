@@ -2,4 +2,4 @@
 # Environment file
 .env
 # Output file of daily movie comments
-movie-posts.txt
+movie_posts.txt
