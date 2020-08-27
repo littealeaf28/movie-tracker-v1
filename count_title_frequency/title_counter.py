@@ -1,32 +1,32 @@
 import difflib
 import string
 
-# Assuming code has access to movie_posts and movie_titles file
-reddit_post_list = open('movie_posts.txt', 'r')
+# Meant to be run after the post_transform has finished running
+transformed_post_list = open('transformed_movie_posts.txt', 'r')
 movie_titles = open('movie_titles.txt', 'r')
 
-text_data = reddit_post_list.read().split("\n")
-reddit_post_list.close()
+text_data = transformed_post_list.readlines()
+# Have to remove the last entry, which is an integer for tracking transformation progress
+text_data.pop()
+transformed_post_list.close()
 
-# Strips text of punctuation
-for text in text_data:
-    text.translate(string.maketrans("", ""), string.punctuation)
-
-# Gets the movie titles, assuming formatting of title\ntitle\n etc.
-movie_title_list = movie_titles.read().split("\n")
+movie_title_list = movie_titles.readlines()
 movie_titles.close()
 
-# A dictionary counter for tracking each title
 movie_title_counter = {}
 title_counter = open('title_counts', 'a')
 
-# We take one title, create a dictionary entry for it, then use it to search through each text
+# Each title is run through reddit post text (getting movies from reddit post text isn't tenable)
 for title in movie_title_list:
+    # Movie titles with a colon are often referred to by the title after the colon e.g. Avengers: Infinity War
+    if ":" in title:
+        fractured = title.split(":")
+        movie_title_list.append(fractured[len(fractured) - 1].strip())
     movie_title_counter[title] = 0
     word_length = len(title)
+    # The text is split into words so that phrases the length of the title can be compared with the title
     for text in text_data:
         words = text.split(" ")
-        # Individual words are combined into a phrase as long as the title, for comparison in SequenceMatcher
         for index in range(0, len(words) - word_length):
             phrase = string.join(words[index:(index + word_length + 1)])
             match = difflib.SequenceMatcher(None, title, phrase)
