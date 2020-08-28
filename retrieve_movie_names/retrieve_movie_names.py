@@ -1,7 +1,20 @@
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 
-driver = webdriver.Chrome(ChromeDriverManager().install())
+
+def add_movie_titles_on_page(driver, titles):
+    title_elements = driver.find_elements_by_css_selector('h3.lister-item-header')
+    for title_element in title_elements:
+        title = title_element.find_element_by_css_selector('a').text
+        titles.append(title)
+
+
+options = Options()
+# Get rid of headless options to see what script is doing in a browser
+options.add_argument('--headless')
+driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(),
+                          options=options)
 
 imdb_websites = [
     'https://www.imdb.com/search/title/?groups=top_1000',
@@ -11,11 +24,18 @@ imdb_websites = [
     'https://www.imdb.com/search/title/?groups=top_1000&sort=release_date,desc'
 ]
 
+movie_titles = []
 for website in imdb_websites:
     driver.get(website)
+    add_movie_titles_on_page(driver, movie_titles)
+
     for x in range(19):
         next_button = driver.find_element_by_css_selector('a.lister-page-next.next-page')
         next_button.click()
-        driver.implicitly_wait(1000)
+        add_movie_titles_on_page(driver, movie_titles)
+        driver.implicitly_wait(500)
 
-# driver.close()
+for movie_title in movie_titles:
+    print(movie_title + '\n')
+
+driver.close()
