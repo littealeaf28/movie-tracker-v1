@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 import os
 import praw
-from b64_encodings import str_base64_encode
+from retrieve_movie_posts.b64_encodings import str_base64_encode
 
 # Loads in credentials for PRAW from .env file
 load_dotenv()
@@ -21,8 +21,9 @@ movie_posts_file = open('movie_posts.txt', 'a+')
 
 # Iterates through all the submissions and comments in the r/movie subreddit
 # Appends their encodings to movie posts file each on a new line
-for submission in movie_subreddit.top(time_filter='day'):
+for submission in movie_subreddit.top(time_filter='hour'):
     movie_posts_file.write(str_base64_encode(submission.title) + '\n')
+    movie_posts_file.write(str_base64_encode(submission.selftext) + '\n')
     submission.comments.replace_more(limit=None)
     for comment in submission.comments.list():
         movie_posts_file.write(str_base64_encode(comment.body) + '\n')

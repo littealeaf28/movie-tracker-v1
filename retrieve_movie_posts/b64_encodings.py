@@ -1,5 +1,6 @@
 import base64
 
+# Make file into a module or move back into respective files
 
 def str_base64_encode(string):
     encoded_bytes = base64.b64encode(string.encode('utf-8'))

@@ -1,5 +1,0 @@
-.idea
-# Environment file
-.env
-# Output file of daily movie comments
-movie_posts.txt

@@ -5,6 +5,7 @@ import os
 reddit_post_list = open('movie_posts.txt', 'r')
 transformed_posts = open('transformed_movie_posts', 'a')
 
+# Checks if file is empty
 if os.stat('transformed_movie_posts').st_size == 0:
     transformed_posts.write("0")
 text_data = transformed_posts.readlines()

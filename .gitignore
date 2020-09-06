@@ -1,0 +1,6 @@
+../.idea
+# Environment file
+retrieve_movie_posts/.env
+# Output file of daily movie comments
+retrieve_movie_posts/movie_posts.txt
+update_movie_names.zip
